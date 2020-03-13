@@ -14,7 +14,7 @@ on:
   pull_request:
 
 env:
-  IMAGE_NAME: compelo-apid
+  IMAGE_NAME: compelo-api
 
 jobs:
   # Run tests.
