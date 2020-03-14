@@ -16,17 +16,17 @@ class Elo {
     return this.players.find(player => player.id === id);
   }
 
-  addPlayer(id: number, place: number, elo: number) {
+  addPlayer(id: number, place: number, elo: number): void {
     this.players.push({
       id,
       place,
       ratingPre: elo,
       ratingDelta: 0,
-      ratingPost: 0
+      ratingPost: 0,
     });
   }
 
-  calculate() {
+  calculate(): void {
     const n = this.players.length;
     const k = 32 / (n - 1);
 

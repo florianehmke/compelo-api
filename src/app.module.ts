@@ -2,12 +2,10 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
 import { ApolloService } from './apollo.service';
-import { EventController } from './event.controller';
-import { EventService } from './event.service';
+import { EventsModule } from './events/events.module';
 
 @Module({
-  imports: [ConfigModule.forRoot()],
-  controllers: [EventController],
-  providers: [EventService, ApolloService],
+  imports: [ConfigModule.forRoot(), EventsModule],
+  providers: [ApolloService],
 })
 export class AppModule {}

@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { gql } from 'apollo-boost';
 
-import { ApolloService } from './apollo.service';
-import Elo, { InitialElo } from './shared/elo';
+import { ApolloService } from '../../apollo.service';
+import Elo, { InitialElo } from '../../shared/elo';
+import { mean } from '../../shared/math';
 import {
   AddRatingsMutation,
   AddRatingsMutationVariables,
@@ -12,67 +12,18 @@ import {
   PlayerRatingByGameQuery,
   PlayerRatingByGameQueryVariables,
   Rating_Insert_Input,
-} from './types/generated/graphql';
+} from '../../types/generated/graphql';
+import { ADD_RATINGS, MATCHES, PLAYER_RATING_BY_GAME } from './gql';
 
 @Injectable()
-export class EventService {
-  matches = gql`
-    query Matches {
-      match(order_by: { created_at: asc }) {
-        uuid
-        date
-        game_id
-        teams {
-          id
-          result
-          score
-          appearances {
-            player_id
-          }
-        }
-      }
-    }
-  `;
-
-  add_ratings = gql`
-    mutation AddRatings($ratings: [rating_insert_input!]!) {
-      insert_rating(
-        objects: $ratings
-        on_conflict: {
-          constraint: rating_player_id_match_uuid_key
-          update_columns: [rating, rating_before]
-        }
-      ) {
-        affected_rows
-      }
-    }
-  `;
-
-  player_rating_by_game = gql`
-    query PlayerRatingByGame(
-      $playerId: Int!
-      $gameId: Int!
-      $date: timestamptz!
-    ) {
-      rating(
-        where: {
-          match: { game_id: { _eq: $gameId }, _and: { date: { _lt: $date } } }
-          player_id: { _eq: $playerId }
-        }
-        order_by: { id: desc }
-      ) {
-        rating
-      }
-    }
-  `;
-
+export class RatingService {
   constructor(private apolloService: ApolloService) {}
 
-  async updateRatings() {
+  async updateRatings(): Promise<void> {
     const matchData = await this.apolloService.client.query<
       MatchesQuery,
       MatchesQueryVariables
-    >({ query: this.matches });
+    >({ query: MATCHES });
 
     const matches = matchData?.data?.match ?? [];
     for (const match of matches) {
@@ -80,7 +31,7 @@ export class EventService {
     }
   }
 
-  async updateRatingsForMatch(match: Partial<Match>) {
+  async updateRatingsForMatch(match: Partial<Match>): Promise<void> {
     const playerRatings: { [key: number]: number } = {};
 
     const elo = new Elo();
@@ -97,7 +48,7 @@ export class EventService {
         );
         eloList.push(playerRatings[playerId]);
       }
-      elo.addPlayer(team.id, -team.score, this.mean(eloList));
+      elo.addPlayer(team.id, -team.score, mean(eloList));
     }
     elo.calculate();
 
@@ -118,10 +69,6 @@ export class EventService {
     }
   }
 
-  mean(numbers: number[]): number {
-    return numbers.reduce((acc, val) => acc + val, 0) / numbers.length;
-  }
-
   async playerRatingByGame(
     playerId: number,
     gameId: number,
@@ -131,7 +78,7 @@ export class EventService {
       PlayerRatingByGameQuery,
       PlayerRatingByGameQueryVariables
     >({
-      query: this.player_rating_by_game,
+      query: PLAYER_RATING_BY_GAME,
       variables: {
         gameId,
         playerId,
@@ -142,12 +89,12 @@ export class EventService {
     return ratingData?.data?.rating[0]?.rating ?? InitialElo;
   }
 
-  async addRatings(ratings: Rating_Insert_Input[]) {
+  async addRatings(ratings: Rating_Insert_Input[]): Promise<void> {
     const ratingData = await this.apolloService.client.mutate<
       AddRatingsMutation,
       AddRatingsMutationVariables
     >({
-      mutation: this.add_ratings,
+      mutation: ADD_RATINGS,
       variables: {
         ratings,
       },

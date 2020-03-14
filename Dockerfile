@@ -1,11 +1,11 @@
-FROM node:12.13-alpine As builder
+FROM node:lts-alpine AS builder
 WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm install
 COPY . .
-RUN npm run build
+RUN npm run build:ci
 
-FROM node:12.13-alpine as runtime
+FROM node:lts-alpine AS runtime
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
 WORKDIR /usr/src/app
