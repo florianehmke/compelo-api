@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
 
+import { ApolloModule } from '../apollo.module';
 import { EventsController } from './events.controller';
 import { RatingService } from './rating/rating.service';
 
 @Module({
-  imports: [ConfigModule],
+  imports: [ApolloModule],
   controllers: [EventsController],
-  providers: [RatingService],
+  providers: [RatingService]
 })
 export class EventsModule {}

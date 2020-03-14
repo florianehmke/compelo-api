@@ -22,7 +22,7 @@ class Elo {
       place,
       ratingPre: elo,
       ratingDelta: 0,
-      ratingPost: 0,
+      ratingPost: 0
     });
   }
 

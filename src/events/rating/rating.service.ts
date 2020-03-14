@@ -11,7 +11,7 @@ import {
   MatchesQueryVariables,
   PlayerRatingByGameQuery,
   PlayerRatingByGameQueryVariables,
-  Rating_Insert_Input,
+  Rating_Insert_Input
 } from '../../types/generated/graphql';
 import { ADD_RATINGS, MATCHES, PLAYER_RATING_BY_GAME } from './gql';
 
@@ -44,7 +44,7 @@ export class RatingService {
         playerRatings[playerId] = await this.playerRatingByGame(
           playerId,
           gameId,
-          match.date,
+          match.date
         );
         eloList.push(playerRatings[playerId]);
       }
@@ -61,7 +61,7 @@ export class RatingService {
           match_uuid: match.uuid,
           rating: playerRatings[appearance.player_id] + teamElo.ratingDelta,
           rating_before: playerRatings[appearance.player_id],
-          player_id: appearance.player_id,
+          player_id: appearance.player_id
         });
       });
 
@@ -72,7 +72,7 @@ export class RatingService {
   async playerRatingByGame(
     playerId: number,
     gameId: number,
-    date: string = new Date().toISOString(),
+    date: string = new Date().toISOString()
   ): Promise<number> {
     const ratingData = await this.apolloService.client.query<
       PlayerRatingByGameQuery,
@@ -82,8 +82,8 @@ export class RatingService {
       variables: {
         gameId,
         playerId,
-        date,
-      },
+        date
+      }
     });
 
     return ratingData?.data?.rating[0]?.rating ?? InitialElo;
@@ -96,8 +96,8 @@ export class RatingService {
     >({
       mutation: ADD_RATINGS,
       variables: {
-        ratings,
-      },
+        ratings
+      }
     });
 
     if (ratingData.errors) {

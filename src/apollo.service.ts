@@ -13,8 +13,8 @@ export class ApolloService {
     this.client = new ApolloClient({ uri: gqlEndpoint });
     this.client.defaultOptions = {
       query: {
-        fetchPolicy: 'network-only',
-      },
+        fetchPolicy: 'network-only'
+      }
     };
   }
 }
