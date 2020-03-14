@@ -1358,6 +1358,7 @@ export type Project = {
   games_aggregate: Game_Aggregate;
   id: Scalars['Int'];
   name: Scalars['String'];
+  password_hash: Scalars['String'];
   players: Array<Player>;
   players_aggregate: Player_Aggregate;
   updated_at: Scalars['timestamptz'];
@@ -1462,6 +1463,7 @@ export type Project_Bool_Exp = {
   games?: Maybe<Game_Bool_Exp>;
   id?: Maybe<Int_Comparison_Exp>;
   name?: Maybe<String_Comparison_Exp>;
+  password_hash?: Maybe<String_Comparison_Exp>;
   players?: Maybe<Player_Bool_Exp>;
   updated_at?: Maybe<Timestamptz_Comparison_Exp>;
 };
@@ -1479,6 +1481,7 @@ export type Project_Insert_Input = {
   games?: Maybe<Game_Arr_Rel_Insert_Input>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
+  password_hash?: Maybe<Scalars['String']>;
   players?: Maybe<Player_Arr_Rel_Insert_Input>;
   updated_at?: Maybe<Scalars['timestamptz']>;
 };
@@ -1488,6 +1491,7 @@ export type Project_Max_Fields = {
   created_at?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
+  password_hash?: Maybe<Scalars['String']>;
   updated_at?: Maybe<Scalars['timestamptz']>;
 };
 
@@ -1495,6 +1499,7 @@ export type Project_Max_Order_By = {
   created_at?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
   name?: Maybe<Order_By>;
+  password_hash?: Maybe<Order_By>;
   updated_at?: Maybe<Order_By>;
 };
 
@@ -1503,6 +1508,7 @@ export type Project_Min_Fields = {
   created_at?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
+  password_hash?: Maybe<Scalars['String']>;
   updated_at?: Maybe<Scalars['timestamptz']>;
 };
 
@@ -1510,6 +1516,7 @@ export type Project_Min_Order_By = {
   created_at?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
   name?: Maybe<Order_By>;
+  password_hash?: Maybe<Order_By>;
   updated_at?: Maybe<Order_By>;
 };
 
@@ -1535,6 +1542,7 @@ export type Project_Order_By = {
   games_aggregate?: Maybe<Game_Aggregate_Order_By>;
   id?: Maybe<Order_By>;
   name?: Maybe<Order_By>;
+  password_hash?: Maybe<Order_By>;
   players_aggregate?: Maybe<Player_Aggregate_Order_By>;
   updated_at?: Maybe<Order_By>;
 };
@@ -1543,6 +1551,7 @@ export enum Project_Select_Column {
   CreatedAt = 'created_at',
   Id = 'id',
   Name = 'name',
+  PasswordHash = 'password_hash',
   UpdatedAt = 'updated_at'
 }
 
@@ -1550,6 +1559,7 @@ export type Project_Set_Input = {
   created_at?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
+  password_hash?: Maybe<Scalars['String']>;
   updated_at?: Maybe<Scalars['timestamptz']>;
 };
 
@@ -1593,6 +1603,7 @@ export enum Project_Update_Column {
   CreatedAt = 'created_at',
   Id = 'id',
   Name = 'name',
+  PasswordHash = 'password_hash',
   UpdatedAt = 'updated_at'
 }
 
@@ -2152,7 +2163,27 @@ export type Rating_Variance_Order_By = {
 
 export type Result_Type = {
    __typename?: 'result_type';
+  teams: Array<Team>;
+  teams_aggregate: Team_Aggregate;
   value: Scalars['String'];
+};
+
+
+export type Result_TypeTeamsArgs = {
+  distinct_on?: Maybe<Array<Team_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Team_Order_By>>;
+  where?: Maybe<Team_Bool_Exp>;
+};
+
+
+export type Result_TypeTeams_AggregateArgs = {
+  distinct_on?: Maybe<Array<Team_Select_Column>>;
+  limit?: Maybe<Scalars['Int']>;
+  offset?: Maybe<Scalars['Int']>;
+  order_by?: Maybe<Array<Team_Order_By>>;
+  where?: Maybe<Team_Bool_Exp>;
 };
 
 export type Result_Type_Aggregate = {
@@ -2189,6 +2220,7 @@ export type Result_Type_Bool_Exp = {
   _and?: Maybe<Array<Maybe<Result_Type_Bool_Exp>>>;
   _not?: Maybe<Result_Type_Bool_Exp>;
   _or?: Maybe<Array<Maybe<Result_Type_Bool_Exp>>>;
+  teams?: Maybe<Team_Bool_Exp>;
   value?: Maybe<String_Comparison_Exp>;
 };
 
@@ -2211,6 +2243,7 @@ export type Result_Type_Enum_Comparison_Exp = {
 };
 
 export type Result_Type_Insert_Input = {
+  teams?: Maybe<Team_Arr_Rel_Insert_Input>;
   value?: Maybe<Scalars['String']>;
 };
 
@@ -2250,6 +2283,7 @@ export type Result_Type_On_Conflict = {
 };
 
 export type Result_Type_Order_By = {
+  teams_aggregate?: Maybe<Team_Aggregate_Order_By>;
   value?: Maybe<Order_By>;
 };
 
@@ -2504,6 +2538,7 @@ export type Team = {
   match: Match;
   match_uuid: Scalars['uuid'];
   result: Result_Type_Enum;
+  result_type: Result_Type;
   score: Scalars['Int'];
   updated_at: Scalars['timestamptz'];
 };
@@ -2593,6 +2628,7 @@ export type Team_Bool_Exp = {
   match?: Maybe<Match_Bool_Exp>;
   match_uuid?: Maybe<Uuid_Comparison_Exp>;
   result?: Maybe<Result_Type_Enum_Comparison_Exp>;
+  result_type?: Maybe<Result_Type_Bool_Exp>;
   score?: Maybe<Int_Comparison_Exp>;
   updated_at?: Maybe<Timestamptz_Comparison_Exp>;
 };
@@ -2613,6 +2649,7 @@ export type Team_Insert_Input = {
   match?: Maybe<Match_Obj_Rel_Insert_Input>;
   match_uuid?: Maybe<Scalars['uuid']>;
   result?: Maybe<Result_Type_Enum>;
+  result_type?: Maybe<Result_Type_Obj_Rel_Insert_Input>;
   score?: Maybe<Scalars['Int']>;
   updated_at?: Maybe<Scalars['timestamptz']>;
 };
@@ -2671,6 +2708,7 @@ export type Team_Order_By = {
   match?: Maybe<Match_Order_By>;
   match_uuid?: Maybe<Order_By>;
   result?: Maybe<Order_By>;
+  result_type?: Maybe<Result_Type_Order_By>;
   score?: Maybe<Order_By>;
   updated_at?: Maybe<Order_By>;
 };
@@ -2805,6 +2843,19 @@ export type Uuid_Comparison_Exp = {
   _nin?: Maybe<Array<Scalars['uuid']>>;
 };
 
+export type ProjectByIdQueryVariables = {
+  projectId: Scalars['Int'];
+};
+
+
+export type ProjectByIdQuery = (
+  { __typename?: 'query_root' }
+  & { project_by_pk: Maybe<(
+    { __typename?: 'project' }
+    & Pick<Project, 'name' | 'password_hash'>
+  )> }
+);
+
 export type AddRatingsMutationVariables = {
   ratings: Array<Rating_Insert_Input>;
 };
@@ -2815,21 +2866,6 @@ export type AddRatingsMutation = (
   & { insert_rating: Maybe<(
     { __typename?: 'rating_mutation_response' }
     & Pick<Rating_Mutation_Response, 'affected_rows'>
-  )> }
-);
-
-export type PlayerRatingByGameQueryVariables = {
-  playerId: Scalars['Int'];
-  gameId: Scalars['Int'];
-  date: Scalars['timestamptz'];
-};
-
-
-export type PlayerRatingByGameQuery = (
-  { __typename?: 'query_root' }
-  & { rating: Array<(
-    { __typename?: 'rating' }
-    & Pick<Rating, 'rating'>
   )> }
 );
 
@@ -2849,5 +2885,20 @@ export type MatchesQuery = (
         & Pick<Appearance, 'player_id'>
       )> }
     )> }
+  )> }
+);
+
+export type PlayerRatingByGameQueryVariables = {
+  playerId: Scalars['Int'];
+  gameId: Scalars['Int'];
+  date: Scalars['timestamptz'];
+};
+
+
+export type PlayerRatingByGameQuery = (
+  { __typename?: 'query_root' }
+  & { rating: Array<(
+    { __typename?: 'rating' }
+    & Pick<Rating, 'rating'>
   )> }
 );
