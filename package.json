@@ -1,27 +1,26 @@
 {
   "name": "compelo-api",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "author": "Florian Ehmke",
   "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
     "build:ci": "run-s verify build",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "format:check": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\"",
+    "format:write": "prettier --write \"**/*.ts\"",
+    "format:check": "prettier --check \"**/*.ts\"",
     "generate": "graphql-codegen --config codegen.js",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\"",
+    "lint": "eslint \"**/*.ts\"",
     "test": "jest --passWithNoTests",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "verify": "run-p lint format:check test"
+    "verify": "run-s lint format:check test"
   },
   "dependencies": {
     "@nestjs/common": "^6.10.14",
@@ -35,6 +34,7 @@
     "rimraf": "^3.0.0",
     "rxjs": "^6.5.4"
   },
+  "description": "",
   "devDependencies": {
     "@graphql-codegen/cli": "^1.12.2",
     "@graphql-codegen/introspection": "^1.12.2",
