@@ -1,3 +1,7 @@
+### Login
+POST http://localhost:8090/auth/login
+
+### Calculate Ratings
 POST http://localhost:8090/events/update-ratings
 
 ###
